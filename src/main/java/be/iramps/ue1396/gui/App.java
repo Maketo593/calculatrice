@@ -133,6 +133,24 @@ public class App extends Application {
             }
         });
 
+        bPlus.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                op = "+";
+                n1 = Double.parseDouble(tFScreen.getText());
+                tFScreen.setText("");
+                bPlus.setDisable(true);
+                bMoins.setDisable(true);
+                bMult.setDisable(true);
+                bDiv.setDisable(true);
+                bPoint.setDisable(false);
+                b0.setDisable(true);
+                bEgal.setDisable(true);
+                bCE.setDisable(false);
+            }
+        });
+
+
         bEgal.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -140,12 +158,39 @@ public class App extends Application {
                 Boolean estDecimal = false;
                 if (op == null) {
                     result = Double.parseDouble(tFScreen.getText());
+                } else {
+                    n2 = Double.parseDouble(tFScreen.getText());
+                    switch (op) {
+                        case "+":
+                            result = n1 + n2;
+                            break;
+                        case "-":
+                            result = n1 - n2;
+                            break;
+                        case "*":
+                            result = n1 * n2;
+                            break;
+                        case "/":
+                            if (n2 == 0) tFScreen.setText("PAS DE DIVISION PAR 0");
+                            else result = n1 / n2;
+                            break;
+                    }
                     estDecimal = result % 1 == 0;
-                    if(estDecimal) {
+                    if(estDecimal && !tFScreen.getText().contains("PAS DE DIVISION PAR 0")) {
                         tFScreen.setText(Integer.toString((int)result));
                         bPoint.setDisable(false);
                     } else tFScreen.setText(Double.toString(result));
                 }
+                op = null;
+                n1 = 0;
+                n2 = 0;
+                bPlus.setDisable(true);
+                bMoins.setDisable(true);
+                bMult.setDisable(true);
+                bDiv.setDisable(true);
+                bPoint.setDisable(false);
+                b0.setDisable(true);
+                bCE.setDisable(true);
                 bEgal.setDisable(true);
             }
         });
