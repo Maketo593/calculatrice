@@ -20,6 +20,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        String op = null;
+
         Insets insets = new Insets(10, 10, 10, 10);
         VBox vBox = new VBox(20);
 
@@ -35,6 +37,7 @@ public class App extends Application {
         b8.setMinSize(40, 40);
         b9.setMinSize(40, 40);
         bPlus.setMinSize(40, 40);
+        bPlus.setDisable(true);
         hBox789.getChildren().addAll(b7, b8, b9, bPlus);
         hBox789.setPadding(insets);
 
@@ -55,6 +58,7 @@ public class App extends Application {
         Button b2 = new Button("2");
         Button b3 = new Button("3");
         Button bMult = new Button("*");
+        bMult.setDisable(true);
         b1.setMinSize(40, 40);
         b2.setMinSize(40, 40);
         b3.setMinSize(40, 40);
@@ -65,17 +69,26 @@ public class App extends Application {
         HBox hBox0 = new HBox(20);
         Button bPoint = new Button(".");
         Button b0 = new Button("0");
-        Button bEgale = new Button("=");
         Button bCE = new Button("CE");
+        Button bDiv = new Button("/");
         bPoint.setMinSize(40, 40);
         b0.setMinSize(40, 40);
-        bEgale.setMinSize(40, 40);
         bCE.setMinSize(40, 40);
-        hBox0.getChildren().addAll(bPoint, b0, bEgale, bCE);
+        bDiv.setMinSize(40, 40);
+        bCE.setDisable(true);
+        bDiv.setDisable(true);
+        hBox0.getChildren().addAll(bPoint, b0, bCE, bDiv);
         hBox0.setPadding(insets);
 
-        vBox.getChildren().addAll(tFScreen, hBox789, hBox456, hBox123, hBox0);
-        scene = new Scene(vBox, 240, 360);
+        HBox hBoxEgal = new HBox(20);
+        Button bEgal = new Button("=");
+        bEgal.setMinSize(220, 40);
+        hBoxEgal.getChildren().addAll(bEgal);
+        bEgal.setDisable(true);
+        hBoxEgal.setPadding(insets);
+
+        vBox.getChildren().addAll(tFScreen, hBox789, hBox456, hBox123, hBox0, hBoxEgal);
+        scene = new Scene(vBox, 240, 440);
         stage.setScene(scene);
         stage.show();
     }
