@@ -22,20 +22,70 @@ public class App extends Application {
     double n1 = 0;
     double n2 = 0;
 
+    TextField tFScreen;
+    Button b0;
+    Button b1;
+    Button b2;
+    Button b3;
+    Button b4;
+    Button b5;
+    Button b6;
+    Button b7;
+    Button b8;
+    Button b9;
+    Button bPoint;
+    Button bPlusMoins;
+    Button bPlus;
+    Button bMoins;
+    Button bMult;
+    Button bDiv;
+    Button bCE;
+    Button bEgal;
+
+    public void clickChiffre(Button b) {
+        if (tFScreen.getLength() >= 0) {
+            tFScreen.setText(tFScreen.getText() + b.getText());
+            bPlus.setDisable(false);
+            bMoins.setDisable(false);
+            bMult.setDisable(false);
+            bDiv.setDisable(false);
+            b0.setDisable(false);
+            bCE.setDisable(false);
+            bEgal.setDisable(false);
+            if (!tFScreen.getText().contains(".")) {
+                bPoint.setDisable(false);
+            }
+        }
+    }
+
+    public void clickOperation(Button b) {
+        op = b.getText();
+        n1 = Double.parseDouble(tFScreen.getText());
+        tFScreen.setText("");
+        bPlus.setDisable(true);
+        bMoins.setDisable(true);
+        bMult.setDisable(true);
+        bDiv.setDisable(true);
+        bPoint.setDisable(false);
+        b0.setDisable(true);
+        bEgal.setDisable(true);
+        bCE.setDisable(false);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
-        stage.setTitle("Calcul v0.2");
+        stage.setTitle("Exercice 4.4.6");
         Insets insets = new Insets(10, 10, 10, 10);
         VBox vBox = new VBox(20);
 
-        TextField tFScreen = new TextField("");
+        tFScreen = new TextField("");
         tFScreen.setDisable(true);
 
         HBox hBox789 = new HBox(20);
-        Button b7 = new Button("7");
-        Button b8 = new Button("8");
-        Button b9 = new Button("9");
-        Button bPlus = new Button("+");
+        b7 = new Button("7");
+        b8 = new Button("8");
+        b9 = new Button("9");
+        bPlus = new Button("+");
         b7.setMinSize(40, 40);
         b8.setMinSize(40, 40);
         b9.setMinSize(40, 40);
@@ -45,10 +95,10 @@ public class App extends Application {
         hBox789.setPadding(insets);
 
         HBox hBox456 = new HBox(20);
-        Button b4 = new Button("4");
-        Button b5 = new Button("5");
-        Button b6 = new Button("6");
-        Button bMoins = new Button("-");
+        b4 = new Button("4");
+        b5 = new Button("5");
+        b6 = new Button("6");
+        bMoins = new Button("-");
         b4.setMinSize(40, 40);
         b5.setMinSize(40, 40);
         b6.setMinSize(40, 40);
@@ -58,10 +108,10 @@ public class App extends Application {
         hBox456.setPadding(insets);
 
         HBox hBox123 = new HBox(20);
-        Button b1 = new Button("1");
-        Button b2 = new Button("2");
-        Button b3 = new Button("3");
-        Button bMult = new Button("*");
+        b1 = new Button("1");
+        b2 = new Button("2");
+        b3 = new Button("3");
+        bMult = new Button("*");
         bMult.setDisable(true);
         b1.setMinSize(40, 40);
         b2.setMinSize(40, 40);
@@ -71,10 +121,10 @@ public class App extends Application {
         hBox123.setPadding(insets);
 
         HBox hBox0 = new HBox(20);
-        Button bPoint = new Button(".");
-        Button b0 = new Button("0");
-        Button bCE = new Button("CE");
-        Button bDiv = new Button("/");
+        bPoint = new Button(".");
+        b0 = new Button("0");
+        bCE = new Button("CE");
+        bDiv = new Button("/");
         bPoint.setMinSize(40, 40);
         b0.setMinSize(40, 40);
         bCE.setMinSize(40, 40);
@@ -86,8 +136,8 @@ public class App extends Application {
         hBox0.setPadding(insets);
 
         HBox hBoxEgal = new HBox(20);
-        Button bPlusMoins = new Button("+/-");
-        Button bEgal = new Button("=");
+        bPlusMoins = new Button("+/-");
+        bEgal = new Button("=");
         bPlusMoins.setMinSize(40, 40);
         bEgal.setMinSize(160, 40);
         hBoxEgal.getChildren().addAll(bPlusMoins, bEgal);
@@ -136,26 +186,36 @@ public class App extends Application {
         bPlus.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                op = "+";
-                n1 = Double.parseDouble(tFScreen.getText());
-                tFScreen.setText("");
-                bPlus.setDisable(true);
-                bMoins.setDisable(true);
-                bMult.setDisable(true);
-                bDiv.setDisable(true);
-                bPoint.setDisable(false);
-                b0.setDisable(true);
-                bEgal.setDisable(true);
-                bCE.setDisable(false);
+                clickOperation(bPlus);
             }
         });
 
+        bMoins.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clickOperation(bMoins);
+            }
+        });
+
+        bMult.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clickOperation(bMult);
+            }
+        });
+        
+        bDiv.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clickOperation(bDiv);
+            }
+        });
 
         bEgal.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 double result = 0;
-                Boolean estDecimal = false;
+                Boolean estEntier = false;
                 if (op == null) {
                     result = Double.parseDouble(tFScreen.getText());
                 } else {
@@ -171,26 +231,28 @@ public class App extends Application {
                             result = n1 * n2;
                             break;
                         case "/":
-                            if (n2 == 0) tFScreen.setText("PAS DE DIVISION PAR 0");
-                            else result = n1 / n2;
+                            result = n1 / n2;
                             break;
                     }
-                    estDecimal = result % 1 == 0;
-                    if(estDecimal && !tFScreen.getText().contains("PAS DE DIVISION PAR 0")) {
-                        tFScreen.setText(Integer.toString((int)result));
-                        bPoint.setDisable(false);
-                    } else tFScreen.setText(Double.toString(result));
+                }
+                estEntier = result % 1 == 0;
+                if(estEntier) {
+                    tFScreen.setText(Integer.toString((int)result));
+                    bPoint.setDisable(false);
+                }
+                else {
+                    tFScreen.setText(Double.toString(result));
+                    bPoint.setDisable(true);
                 }
                 op = null;
                 n1 = 0;
                 n2 = 0;
-                bPlus.setDisable(true);
-                bMoins.setDisable(true);
-                bMult.setDisable(true);
-                bDiv.setDisable(true);
-                bPoint.setDisable(false);
-                b0.setDisable(true);
-                bCE.setDisable(true);
+                bPlus.setDisable(false);
+                bMoins.setDisable(false);
+                bMult.setDisable(false);
+                bDiv.setDisable(false);
+                b0.setDisable(false);
+                bCE.setDisable(false);
                 bEgal.setDisable(true);
             }
         });
@@ -227,171 +289,63 @@ public class App extends Application {
         b1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (tFScreen.getLength() >= 0) {
-                    tFScreen.setText(tFScreen.getText() + "1");
-                    bPlus.setDisable(false);
-                    bMoins.setDisable(false);
-                    bMult.setDisable(false);
-                    bDiv.setDisable(false);
-                    b0.setDisable(false);
-                    bCE.setDisable(false);
-                    bEgal.setDisable(false);
-                    if (!tFScreen.getText().contains(".")) {
-                        bPoint.setDisable(false);
-                    }
-                }
+                clickChiffre(b1);
             }
         });
 
         b2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (tFScreen.getLength() >= 0) {
-                    tFScreen.setText(tFScreen.getText() + "2");
-                    bPlus.setDisable(false);
-                    bMoins.setDisable(false);
-                    bMult.setDisable(false);
-                    bDiv.setDisable(false);
-                    b0.setDisable(false);
-                    bCE.setDisable(false);
-                    bEgal.setDisable(false);
-                    if (!tFScreen.getText().contains(".")) {
-                        bPoint.setDisable(false);
-                    }
-                }
+                clickChiffre(b2);
             }
         });
         
         b3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (tFScreen.getLength() >= 0) {
-                    tFScreen.setText(tFScreen.getText() + "3");
-                    bPlus.setDisable(false);
-                    bMoins.setDisable(false);
-                    bMult.setDisable(false);
-                    bDiv.setDisable(false);
-                    b0.setDisable(false);
-                    bCE.setDisable(false);
-                    bEgal.setDisable(false);
-                    if (!tFScreen.getText().contains(".")) {
-                        bPoint.setDisable(false);
-                    }
-                }
+                clickChiffre(b3);
             }
         });
 
         b4.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (tFScreen.getLength() >= 0) {
-                    tFScreen.setText(tFScreen.getText() + "4");
-                    bPlus.setDisable(false);
-                    bMoins.setDisable(false);
-                    bMult.setDisable(false);
-                    bDiv.setDisable(false);
-                    b0.setDisable(false);
-                    bCE.setDisable(false);
-                    bEgal.setDisable(false);
-                    if (!tFScreen.getText().contains(".")) {
-                        bPoint.setDisable(false);
-                    }
-                }
+                clickChiffre(b4);
             }
         });
 
         b5.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (tFScreen.getLength() >= 0) {
-                    tFScreen.setText(tFScreen.getText() + "5");
-                    bPlus.setDisable(false);
-                    bMoins.setDisable(false);
-                    bMult.setDisable(false);
-                    bDiv.setDisable(false);
-                    b0.setDisable(false);
-                    bCE.setDisable(false);
-                    bEgal.setDisable(false);
-                    if (!tFScreen.getText().contains(".")) {
-                        bPoint.setDisable(false);
-                    }
-                }
+                clickChiffre(b5);
             }
         });
 
         b6.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (tFScreen.getLength() >= 0) {
-                    tFScreen.setText(tFScreen.getText() + "6");
-                    bPlus.setDisable(false);
-                    bMoins.setDisable(false);
-                    bMult.setDisable(false);
-                    bDiv.setDisable(false);
-                    b0.setDisable(false);
-                    bCE.setDisable(false);
-                    bEgal.setDisable(false);
-                    if (!tFScreen.getText().contains(".")) {
-                        bPoint.setDisable(false);
-                    }
-                }
+                clickChiffre(b6);
             }
         });
 
         b7.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (tFScreen.getLength() >= 0) {
-                    tFScreen.setText(tFScreen.getText() + "7");
-                    bPlus.setDisable(false);
-                    bMoins.setDisable(false);
-                    bMult.setDisable(false);
-                    bDiv.setDisable(false);
-                    b0.setDisable(false);
-                    bCE.setDisable(false);
-                    bEgal.setDisable(false);
-                    if (!tFScreen.getText().contains(".")) {
-                        bPoint.setDisable(false);
-                    }
-                }
+                clickChiffre(b7);
             }
         });
 
         b8.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (tFScreen.getLength() >= 0) {
-                    tFScreen.setText(tFScreen.getText() + "8");
-                    bPlus.setDisable(false);
-                    bMoins.setDisable(false);
-                    bMult.setDisable(false);
-                    bDiv.setDisable(false);
-                    b0.setDisable(false);
-                    bCE.setDisable(false);
-                    bEgal.setDisable(false);
-                    if (!tFScreen.getText().contains(".")) {
-                        bPoint.setDisable(false);
-                    }
-                }
+                clickChiffre(b8);
             }
         });
 
         b9.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (tFScreen.getLength() >= 0) {
-                    tFScreen.setText(tFScreen.getText() + "9");
-                    bPlus.setDisable(false);
-                    bMoins.setDisable(false);
-                    bMult.setDisable(false);
-                    bDiv.setDisable(false);
-                    b0.setDisable(false);
-                    bCE.setDisable(false);
-                    bEgal.setDisable(false);
-                    if (!tFScreen.getText().contains(".")) {
-                        bPoint.setDisable(false);
-                    }
-                }
+                clickChiffre(b9);
             }
         });
 
